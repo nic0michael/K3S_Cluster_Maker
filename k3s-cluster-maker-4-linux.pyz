@@ -3,7 +3,7 @@
 import yaml
 
 # Read the AllNodes.yaml file
-with open("AllNodes.yaml", "r") as f:
+with open("AllNodesConfig.yaml", "r") as f:
     nodes = yaml.safe_load(f)
 
 # Generate the target file
