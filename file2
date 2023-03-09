@@ -1,0 +1,46 @@
+import yaml
+
+def generate_deployment_file(node):
+    nickname = node['nickname']
+    ipAddress = node['ipAddress']
+    fqdn = node['fqdn']
+    userId = node['userId']
+
+    deployment_script = f'#######################\n# {nickname} #\n#######################\n'
+    deployment_script += f'ssh {userId}@{ipAddress}\n'
+    deployment_script += 'sudo su -\n'
+    deployment_script += '/usr/local/bin/k3s-killall.sh\n'
+    deployment_script += '/usr/local/bin/k3s-agent-uninstall.sh\n'
+    deployment_script += '/usr/local/bin/k3s-uninstall.sh\n\n'
+
+    if node.get('k3sToken'):
+        deployment_script += f'node_ip="{ipAddress}"\n'
+        deployment_script += f'node_name="{fqdn}"\n'
+        deployment_script += 'curl -sfL https://get.k3s.io | K3S_NODE_IP=${node_ip} K3S_NODE_NAME=${node_name} sh -s - server --cluster-init\n\n'
+        deployment_script += 'cat /var/lib/rancher/k3s/server/node-token\n'
+        deployment_script += 'Update the token in this file\n\n'
+    else:
+        k3s_token = node.get('k3s_token')
+        k3s_url = f'https://{ipAddress}:6443'
+        deployment_script += f'k3s_token="{k3s_token}"\n'
+        deployment_script += f'k3s_url="{k3s_url}"\n'
+        deployment_script += f'node_ip="{ipAddress}"\n'
+        deployment_script += f'node_name="{fqdn}"\n'
+        deployment_script += 'curl -sfL https://get.k3s.io | K3S_TOKEN=${k3s_token} K3S_NODE_IP=${node_ip} K3S_NODE_NAME=${node_name} sh -s - server --server ${k3s_url}\n\n'
+
+    return deployment_script
+
+def main():
+    with open('AllNodes.yaml', 'r') as f:
+        data = yaml.safe_load(f)
+
+    target_file = data['targetFile']
+    with open(target_file, 'w') as f:
+        for node_name, node in data.items():
+            if node_name == 'targetFile':
+                continue
+            deployment_script = generate_deployment_file(node)
+            f.write(deployment_script)
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,36 @@
+Given I have a file named AllNodes.yaml
+With this content
+
+
+---
+primaryNode:
+  nickname: Primary Master Node
+  ipAddress: 10.154.2.88
+  fqdn: buffalo.loseyourip.com
+  userId: nickm
+  k3sToken: K1026e692c09900990359e4959bea4c6b5bf943ddb7b2ca1d4bb7edfae7bff181da::server:c2f4a96a9a957e2c838c33c2f5707164
+targetFile: cluster_deployment_file.txt
+
+write a Python program k3s-cluster-maker.pyz
+
+to generate the target file as named in the AllNodes.yaml field targetFile with this content
+
+#######################
+# Primary Master Node #
+#######################
+ssh nickm@10.154.2.88
+sudo su -
+/usr/local/bin/k3s-killall.sh
+/usr/local/bin/k3s-agent-uninstall.sh
+/usr/local/bin/k3s-uninstall.sh
+
+
+node_ip="10.154.2.88"
+node_name="buffalo.myk3s.com"
+curl -sfL https://get.k3s.io | K3S_NODE_IP=${node_ip} K3S_NODE_NAME=${node_name} sh -s - server --cluster-init
+
+
+cat /var/lib/rancher/k3s/server/node-token
+Update the token in this file
+
+

@@ -1,0 +1,42 @@
+import yaml
+
+with open('AllNodes.yaml') as f:
+    data = yaml.safe_load(f)
+
+target_file = data['targetFile']
+node_info = data['primaryNode']
+
+# Format the SSH command
+ssh_cmd = f"ssh {node_info['userId']}@{node_info['ipAddress']}"
+
+# Format the k3s install command
+k3s_install_cmd = (
+    f"node_ip=\"{node_info['ipAddress']}\"\n"
+    f"node_name=\"{node_info['fqdn']}\"\n"
+    f"curl -sfL https://get.k3s.io | "
+    f"K3S_NODE_IP=${{node_ip}} K3S_NODE_NAME=${{node_name}} sh -s - server --cluster-init"
+)
+
+# Format the script content
+script_content = (
+    f"#######################\n"
+    f"# {node_info['nickname']} #\n"
+    f"#######################\n"
+    f"{ssh_cmd}\n"
+    f"sudo su -\n"
+    f"/usr/local/bin/k3s-killall.sh\n"
+    f"/usr/local/bin/k3s-agent-uninstall.sh\n"
+    f"/usr/local/bin/k3s-uninstall.sh\n\n"
+    f"{k3s_install_cmd}\n\n"
+    f"cat /var/lib/rancher/k3s/server/node-token\n"
+    f"Update the token in this file\n"
+)
+
+# Write to target file
+with open(target_file, 'w') as f:
+    f.write(script_content)
+"""
+Make sure to place the AllNodes.yaml file in the same directory as the k3s-cluster-maker.pyz program, 
+and then execute the program by running python k3s-cluster-maker.pyz. 
+This will generate the cluster_deployment_file.txt file with the desired content.
+"""
