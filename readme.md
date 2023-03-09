@@ -1,31 +1,39 @@
 # The K3S-HA Cluster Maker
-This is a Python program and a linux script that reads the AllNodesConfig.yaml and generates the schedule text file for you 
-to use to generate the cluster
+This is a flexible Cluster maker program \ 
+You can make the folowing clusters :
+1. K3S-HA Cluster with muntiple Master Nodes and Multiple worker Nodes
+2. K3S Cluster with one Master Nodes and Multiple worker Nodes
+3. K3S Minimal Cluster with only a master Node
 
-You only populate the nodes you want and delete the ones you don't want
+## This ships as two Python files and a Configuration yaml file
+This is shipped as a Python program and also as a linux script \
+These read the AllNodesConfig.yaml and generates the schedule text file for you 
+to use to create your cluster
 
-## JSON Formatter validator
-https://jsonformatter.curiousconcept.com/
+## To Configure the Cluster you want to create 
+Edit the AllNodesConfig.yaml configuration file
+```
+nano AllNodesConfig.yaml
+```
+Now only populate the nodes you want and delete the ones you don't want in this file
 
-## JSON to YAML Converter
-https://www.json2yaml.com/
 
-## To run this program
+## To run this program from Python
 ```
 python3 k3s-cluster-maker.pyz AllNodesConfig.yaml
 ```
 
-## To make this file Linux Executable
+## To run this program using Linux Executable script
 
-Put this ontop of the file
 ```
-#!/usr/bin/env python3
-```
-
-And run this command
-```
-chmod +x k3s-cluster-maker.pyz
+./k3s-cluster-maker-4-linux.pyz
 ```
 
+## Tools used
 
+### JSON Formatter validator
+https://jsonformatter.curiousconcept.com/
+
+### JSON to YAML Converter
+https://www.json2yaml.com/
 
