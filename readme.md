@@ -2,14 +2,14 @@
 This is a flexible Cluster maker program 
  
 You can make the folowing clusters :
-1. K3S-HA Cluster with muntiple Master Nodes and Multiple worker Nodes
+1. K3S-HA Cluster with multiple Master Nodes and Multiple worker Nodes
 2. K3S Cluster with one Master Nodes and Multiple worker Nodes
-3. K3S Minimal Cluster with only a master Node
+3. K3S Minimal Cluster with only a master Node and no Worker Nodes
 
 ## This ships as two Python files and a Configuration yaml file
 This is shipped as a Python program and also as a linux script.
 
-These read the AllNodesConfig.yaml and generates the schedule text file for you 
+These programs read the AllNodesConfig.yaml and generate the schedule text file for you 
 to use to create your cluster
 
 ## To Configure the Cluster you want to create 
@@ -17,7 +17,7 @@ Edit the AllNodesConfig.yaml configuration file
 ```
 nano AllNodesConfig.yaml
 ```
-Now only populate the nodes you want and delete the ones you don't want in this file
+Now only populate the Nodes you want and delete the Nodes you don't want in this file
 
 
 ## To run this program from Python
