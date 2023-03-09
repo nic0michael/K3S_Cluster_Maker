@@ -23,4 +23,5 @@ And run this command
 chmod +x k3s-cluster-maker.pyz
 ```
 
-
+Although ChatGPT generated the code It could not complete the last loop of code
+I had to fix that myself
