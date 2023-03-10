@@ -1,7 +1,7 @@
 # The K3S-HA Cluster Maker
 This is a flexible Cluster maker program 
  
-You can make the folowing clusters :
+You can make the following clusters :
 1. K3S-HA Cluster with multiple Master Nodes and Multiple worker Nodes
 2. K3S Cluster with one Master Nodes and Multiple worker Nodes
 3. K3S Minimal Cluster with only a master Node and no Worker Nodes
